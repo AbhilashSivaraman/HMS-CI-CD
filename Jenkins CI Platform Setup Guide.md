@@ -194,7 +194,7 @@ Copy the password and complete the Jenkins setup wizard.
 
 During setup:
 
-1. Install Suggested Plugins
+1. Install Plugins
 2. Create Admin User
 3. Configure Jenkins URL
 4. Finish Setup
@@ -228,6 +228,7 @@ Install the following plugins:
 * Pipeline
 * Credentials Binding
 * Sonar Scanner
+* Email Extension
 
 Restart Jenkins if prompted.
 
