@@ -1,0 +1,21 @@
+SonarQube
+
+Go to:
+
+Administration
+    ↓
+Configuration
+    ↓
+Webhooks
+
+Add webhook:
+
+Name: Jenkins
+
+URL:
+
+http://<jenkins-ip>:8080/sonarqube-webhook/
+
+Important: Include the trailing slash /
+
+Add the Quality Gates in the Jenkins pipeline

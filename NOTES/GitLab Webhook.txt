@@ -1,0 +1,94 @@
+GitLab Webhook
+
+This is what most teams use.
+
+Flow:
+
+Developer Pushes Code
+        ↓
+GitLab
+        ↓
+Webhook
+        ↓
+Jenkins
+        ↓
+Pipeline Starts Automatically
+Step 1: Install GitLab Plugin (if not already)
+
+Jenkins:
+
+Manage Jenkins
+→ Plugins
+
+Verify these exist:
+
+GitLab Plugin
+Git Plugin
+Step 2: Configure Jenkins Job
+
+Open your Pipeline Job:
+
+Your Job
+→ Configure
+
+Under:
+
+Build Triggers
+
+Enable:
+
+✓ Build when a change is pushed to GitLab
+
+Save.
+
+Step 3: Copy Jenkins Webhook URL
+
+After enabling the trigger, Jenkins shows something like:
+
+http://<jenkins-ip>:8080/project/<job-name>
+
+or
+
+http://<jenkins-ip>:8080/gitlab/build_now
+
+Copy the URL Jenkins displays for your setup.
+
+Step 4: Configure GitLab Webhook
+
+In GitLab:
+
+Project
+→ Settings
+→ Webhooks
+
+Paste Jenkins URL.
+
+Enable:
+
+✓ Push events
+
+Leave everything else unchecked for now.
+
+Click:
+
+Add Webhook
+Step 5: Verify Connectivity
+
+From GitLab:
+
+Webhooks
+→ Test
+→ Push Event
+
+You should receive:
+
+200 OK
+Important AWS Security Group Check
+
+Your Jenkins EC2 must allow inbound traffic on:
+
+TCP 8080
+
+from GitLab.
+
+If Jenkins is not gitlab reachable, the webhook cannot trigger builds.

@@ -1,0 +1,32 @@
+eksctl create cluster --name rony-hms-cluster --region ap-south-1 --nodegroup-name rony-hms-nodes --node-type t3.medium --nodes 2
+
+eksctl delete cluster --name rony-hms-cluster --region ap-south-1
+
+kubectl get nodes
+
+kubectl create namespace rony-hms
+
+kubectl create namespace argocd
+
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+kubectl get pods -n argocd
+
+kubectl patch svc argocd-server -n argocd --type merge -p '{\"spec\":{\"type\":\"LoadBalancer\"}}'
+
+kubectl get svc -n argocd
+
+Your ArgoCD URL is:
+
+http://aecaca5259cfe4f8d8e05289a1263157-615427266.ap-south-1.elb.amazonaws.com
+
+kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" (Run this in command prompt)
+
+NS13Y1Fzd2M2d09aUHRERw==
+
+Then open powershell and run the below command populating the above encoded thing
+
+[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("NS13Y1Fzd2M2d09aUHRERw=="))
+
+
+

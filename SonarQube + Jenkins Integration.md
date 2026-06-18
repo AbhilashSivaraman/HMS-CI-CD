@@ -73,6 +73,8 @@ Locally
 
 Jenkins will handle analysis.
 
+Note: Create individual projects for each microservices
+
 # Step 5: Configure GitLab Credentials in Jenkins
 
 In GitLab:

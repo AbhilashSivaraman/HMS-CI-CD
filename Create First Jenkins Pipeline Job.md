@@ -10,7 +10,7 @@ Open Jenkins Dashboard:
 Click → New Item
 
 Job Name:
-foodcatalogue-ci
+hotel-management-ci
 
 Select Type:
 Pipeline

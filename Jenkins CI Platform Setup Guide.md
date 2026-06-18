@@ -229,6 +229,8 @@ Install the following plugins:
 * Credentials Binding
 * Sonar Scanner
 * Email Extension
+* Gitlab
+* Matrix Authorization
 
 Restart Jenkins if prompted.
 

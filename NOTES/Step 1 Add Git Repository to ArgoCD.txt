@@ -1,0 +1,43 @@
+Step 1: Add Git Repository to ArgoCD
+
+In ArgoCD UI:
+
+Settings
+↓
+Repositories
+↓
+Connect Repo
+
+Fill:
+
+Repository URL
+
+Use your GitOps repository URL:
+
+https://git.selfmade.ninja/<username>/rony-hms-gitops.git
+Connection Method
+HTTPS
+Username
+
+Your GitLab username.
+
+Password
+
+Use either:
+
+GitLab Password
+
+or preferably:
+
+GitLab Personal Access Token
+
+Then:
+
+Connect
+
+Repository should become:
+
+Successful
+
+
+ 

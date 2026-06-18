@@ -1,0 +1,149 @@
+Step 1 - Create EKS Cluster
+
+Since you're already experienced with EKS from your earlier HMS deployment, create a fresh cluster for the CI/CD setup.
+
+Example:
+
+eksctl create cluster \
+--name rony-hms-cluster \
+--region ap-south-1 \
+--nodegroup-name rony-hms-nodes \
+--node-type t3.medium \
+--nodes 2
+
+Why 2 nodes?
+
+Eureka
+RestaurantListing
+FoodCatalogue
+UserInfo
+Order
+ArgoCD
+
+A single node becomes tight very quickly.
+
+Step 2 - Verify Cluster
+kubectl get nodes
+
+Expected:
+
+Ready
+Ready
+
+
+Step 3 - Create Namespace
+
+kubectl create namespace rony-hms
+
+Step 4 - Install ArgoCD
+
+After EKS is running:
+
+kubectl create namespace argocd
+
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+ALT
+
+kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/v3.2.0/manifests/install.yaml
+
+Then:
+
+kubectl get pods -n argocd
+
+Wait until everything is:
+
+Running
+
+Expose ArgoCD UI
+
+kubectl patch svc argocd-server -n argocd --type=merge --patch='{\"spec\":{\"type\":\"LoadBalancer\"}}'
+
+kubectl get svc -n argocd
+
+Your ArgoCD URL is:
+
+http://aecaca5259cfe4f8d8e05289a1263157-615427266.ap-south-1.elb.amazonaws.com
+
+kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" (Run this in command prompt)
+
+NS13Y1Fzd2M2d09aUHRERw==
+
+Then open powershell and run the below command populating the above encoded thing
+
+[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("NS13Y1Fzd2M2d09aUHRERw=="))
+
+----------
+
+
+Step 1: Add Git Repository to ArgoCD
+
+In ArgoCD UI:
+
+Settings
+↓
+Repositories
+↓
+Connect Repo
+
+
+Then 
+
+Commit and Push
+git add .
+git commit -m "Added Eureka manifests"
+git push origin main
+After Push
+
+In ArgoCD UI:
+
+Applications
+↓
+Create Application
+
+Use:
+
+Application Name:
+eureka-staging
+
+Project:
+default
+
+Sync Policy:
+Manual
+
+Repository:
+rony-hms-gitops
+
+Revision:
+HEAD
+
+Path:
+staging/eureka
+
+Cluster:
+https://kubernetes.default.svc
+
+Namespace:
+rony-hms
+
+Then:
+
+Create
+
+
+
+kubectl get deployment -n rony-hms
+
+kubectl get svc -n rony-hms
+
+kubectl get pods -n rony-hms
+
+kubectl describe pod <pod-name> -n rony-hms
+
+---
+
+type: LoadBalancer
+
+$ kubectl get svc -n rony-hms
+

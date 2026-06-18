@@ -1,0 +1,61 @@
+kubectl create namespace rony-hms
+
+kubectl config set-context --current --namespace=rony-hms
+
+kubectl config view --minify --output 'jsonpath={..namespace}'
+
+kubectl create secret generic restaurant-db-secret --from-literal=SPRING_DATASOURCE_USERNAME=admin --from-literal=SPRING_DATASOURCE_PASSWORD=adminadmin -n rony-hms
+
+kubectl get secrets -n rony-hms
+
+kubectl describe secret restaurant-db-secret -n rony-hms
+
+
+kubectl apply -f D:\PROJECT\k8s\restaurantlisting\configmap.yaml
+
+kubectl get configmap -n rony-hms
+
+kubectl describe configmap restaurant-config -n rony-hms
+
+kubectl apply -f deployment.yaml
+
+kubectl get deployment -n rony-hms
+
+kubectl get pods -n rony-hms
+
+kubectl logs -f deployment/restaurantlisting -n rony-hms
+
+kubectl apply -f service.yaml
+
+kubectl get svc -n rony-hms
+
+Why ClusterIP?
+
+Because:
+
+FoodCatalogue
+UserInfo
+Order
+
+will call Restaurant Service inside the cluster.
+
+Later:
+
+Ingress
+↓
+Load Balancer
+↓
+External Traffic
+
+kubectl logs deployment/restaurantlisting -n rony-hms | findstr Started
+
+
+Important
+
+Once Eureka becomes available, the Restaurant Service pod may still continue showing registration errors because it started before Eureka existed.
+
+After Eureka is healthy, we'll restart Restaurant Service so it re-registers cleanly:
+
+kubectl rollout restart deployment restaurantlisting -n rony-hms
+
+kubectl port-forward svc/eureka-service 8761:8761 -n rony-hms
